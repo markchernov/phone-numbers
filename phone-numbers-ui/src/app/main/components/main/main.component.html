@@ -1,0 +1,23 @@
+<label
+    >Enter Phone Number:
+    <input type="text" [formControl]="phoneNumber" />
+</label>
+<br /><br />
+<p *ngIf="!phoneNumberStatus[0]">{{ phoneNumberStatus[1] }}</p>
+<br /><br />
+<button [disabled]="!phoneNumberStatus[0]" (click)="submitNumber()">
+    Submit
+</button>
+<br /><br />
+<h2>Combinations</h2>
+<p>
+    Total: {{ totalNumberOfCombinations }} Per Page:
+    {{ paginationConfig.combinationsPerPage }}
+</p>
+<p *ngFor="let combination of combinations">
+    {{ combination }}
+</p>
+<app-pagination
+    [paginationConfig]="paginationConfig"
+    (pageNumberClicked)="fetchCombinationsPerPage($event)"
+></app-pagination>
