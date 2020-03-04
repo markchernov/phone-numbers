@@ -1,6 +1,8 @@
-<button
-    *ngFor="let pageNumber of paginationButtonNumbers"
-    (click)="onPageNumberClick(pageNumber)"
->
-    {{ pageNumber }}
-</button>
+<div *ngIf="paginationButtonNumbers.length">
+    <button
+        *ngFor="let pageNumber of paginationButtonNumbers"
+        (click)="onPageNumberClick(pageNumber)"
+    >
+        {{ pageNumber }}
+    </button>
+</div>

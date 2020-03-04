@@ -15,10 +15,7 @@ export class MainComponent implements OnInit {
     phoneNumberStatus: [boolean, string] = [false, ''];
     combinations: string[] = [];
     totalNumberOfCombinations = 0;
-    paginationConfig: PaginationConfig = {
-        totalNumberOfCombinations: 0,
-        combinationsPerPage: this.combinationsPerPage,
-    };
+    paginationConfig: PaginationConfig = this.getDefaultPaginationConfig();
 
     constructor(
         private phoneNumberValidatorService: PhoneNumberValidatorService,
@@ -37,24 +34,26 @@ export class MainComponent implements OnInit {
     }
 
     submitNumber(): void {
-        this.combinations = [];
-        this.phoneNumbersApiClientService
-            .fetchPhoneNumbers(
-                this.phoneNumber.value,
-                0,
-                this.combinationsPerPage
-            )
-            .subscribe(result => {
-                this.totalNumberOfCombinations = result.total;
-                this.combinations = result.combinations;
-                this.paginationConfig = {
-                    totalNumberOfCombinations: this.totalNumberOfCombinations,
-                    combinationsPerPage: this.combinationsPerPage,
-                };
-            });
+        this.fetchPhoneNumbers(0);
     }
 
     fetchCombinationsPerPage(pageNumber: number): void {
+        this.fetchPhoneNumbers(pageNumber);
+    }
+    private clearResults(): void {
+        this.combinations = [];
+        this.totalNumberOfCombinations = 0;
+        this.paginationConfig = this.getDefaultPaginationConfig();
+    }
+
+    private getDefaultPaginationConfig(): PaginationConfig {
+        return {
+            totalNumberOfCombinations: 0,
+            combinationsPerPage: this.combinationsPerPage,
+        };
+    }
+
+    private fetchPhoneNumbers(pageNumber: number): void {
         this.phoneNumbersApiClientService
             .fetchPhoneNumbers(
                 this.phoneNumber.value,
@@ -69,9 +68,5 @@ export class MainComponent implements OnInit {
                     combinationsPerPage: this.combinationsPerPage,
                 };
             });
-    }
-    private clearResults(): void {
-        this.combinations = [];
-        this.totalNumberOfCombinations = 0;
     }
 }
