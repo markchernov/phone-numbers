@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { times } from 'lodash';
-import {} from 'protractor';
 
 @Component({
     selector: 'app-pagination',

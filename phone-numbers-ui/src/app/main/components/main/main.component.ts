@@ -34,11 +34,11 @@ export class MainComponent implements OnInit {
     }
 
     submitNumber(): void {
-        this.fetchPhoneNumbers(0);
+        this.fetchPhoneNumberCombinations(0);
     }
 
     fetchCombinationsPerPage(pageNumber: number): void {
-        this.fetchPhoneNumbers(pageNumber);
+        this.fetchPhoneNumberCombinations(pageNumber);
     }
     private clearResults(): void {
         this.combinations = [];
@@ -53,9 +53,9 @@ export class MainComponent implements OnInit {
         };
     }
 
-    private fetchPhoneNumbers(pageNumber: number): void {
+    private fetchPhoneNumberCombinations(pageNumber: number): void {
         this.phoneNumbersApiClientService
-            .fetchPhoneNumbers(
+            .fetchCombinations(
                 this.phoneNumber.value,
                 pageNumber,
                 this.combinationsPerPage

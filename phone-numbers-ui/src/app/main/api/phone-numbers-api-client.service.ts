@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class PhoneNumbersApiClientService {
     constructor(private http: HttpClient) {}
 
-    fetchPhoneNumbers(
+    fetchCobinations(
         phoneNumber: string,
         start: number,
         numberOfRecords: number
