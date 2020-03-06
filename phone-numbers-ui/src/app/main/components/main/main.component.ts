@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PhoneNumberValidatorService } from '../../services/phone-number-validator.service';
-import { PhoneNumbersApiClientStubService } from '../../api/phone-numbers-api-client-stub.service';
 import { PaginationConfig } from '../pagination/pagination.component';
+import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client.service';
 
 @Component({
     selector: 'app-main',
@@ -19,7 +19,7 @@ export class MainComponent implements OnInit {
 
     constructor(
         private phoneNumberValidatorService: PhoneNumberValidatorService,
-        private phoneNumbersApiClientService: PhoneNumbersApiClientStubService // using Stub pending Api implementation
+        private phoneNumbersApiClientService: PhoneNumbersApiClientService
     ) {}
 
     ngOnInit(): void {

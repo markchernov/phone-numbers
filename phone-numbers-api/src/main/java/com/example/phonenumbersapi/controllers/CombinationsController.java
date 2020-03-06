@@ -1,15 +1,29 @@
 package com.example.phonenumbersapi.controllers;
 
-import java.util.Arrays;
+import java.util.List;
 import com.example.phonenumbersapi.models.CombinationsDto;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.phonenumbersapi.models.CombinationsRequestDto;
+import com.example.phonenumbersapi.services.CombinationsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin()
 @RestController
 public class CombinationsController {
 
-	@GetMapping("/combinations")	
-	public CombinationsDto combinations() {	
-		return new CombinationsDto(2, Arrays.asList("abc","xyz"));
+	private CombinationsService combinationsService;
+
+	@Autowired
+	public void setCombinationsService(CombinationsService combinationService) {
+		this.combinationsService = combinationService;
+	}
+
+	@PostMapping("/combinations")	
+	public CombinationsDto combinations(@RequestBody CombinationsRequestDto request) {	
+		List<String> combinations = this.combinationsService.getCombinations(request.getPhoneNumber(), request.getStart(), request.getNumberOfRecords());
+		return new CombinationsDto(combinations.size(), combinations);
 	}
 }
