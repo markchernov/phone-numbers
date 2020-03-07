@@ -14,7 +14,7 @@ export class PhoneNumbersApiClientService {
         numberOfRecords: number
     ): Observable<{ total: number; combinations: string[] }> {
         return this.http.post<{ total: number; combinations: string[] }>(
-            'localhost:8080/combinations',
+            'http://localhost:4200/api/combinations',
             {
                 phoneNumber,
                 start,

@@ -20,7 +20,7 @@ export class PaginationComponent {
         this.paginationButtonNumbers = times(numberOfPages, num => num + 1);
         this.combinationsPerPage = paginationConfig.combinationsPerPage;
     }
-    @Output() pageNumberClicked = new EventEmitter<number>();
+    @Output() pageNumberClicked = new EventEmitter<PaginationRequestEvent>();
 
     paginationButtonNumbers: number[] = [];
 
@@ -28,15 +28,25 @@ export class PaginationComponent {
 
     onPageNumberClick(pageNumber: number): void {
         pageNumber === 1
-            ? this.pageNumberClicked.emit(0)
-            : this.pageNumberClicked.emit(
-                  pageNumber * this.combinationsPerPage -
-                      this.combinationsPerPage
-              );
+            ? this.pageNumberClicked.emit({
+                  pageNumber,
+                  start: 0,
+              })
+            : this.pageNumberClicked.emit({
+                  pageNumber,
+                  start:
+                      pageNumber * this.combinationsPerPage -
+                      this.combinationsPerPage,
+              });
     }
 }
 
 export interface PaginationConfig {
     totalNumberOfCombinations: number;
     combinationsPerPage: number;
+}
+
+export interface PaginationRequestEvent {
+    pageNumber: number;
+    start: number;
 }

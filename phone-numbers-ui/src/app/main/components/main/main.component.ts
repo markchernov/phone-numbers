@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PhoneNumberValidatorService } from '../../services/phone-number-validator.service';
-import { PaginationConfig } from '../pagination/pagination.component';
+import {
+    PaginationConfig,
+    PaginationRequestEvent,
+} from '../pagination/pagination.component';
 import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client.service';
 
 @Component({
@@ -10,12 +13,13 @@ import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client
     styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit {
-    private readonly combinationsPerPage = 5;
+    private readonly combinationsPerPage = 20;
     phoneNumber = new FormControl('');
     phoneNumberStatus: [boolean, string] = [false, ''];
     combinations: string[] = [];
     totalNumberOfCombinations = 0;
     paginationConfig: PaginationConfig = this.getDefaultPaginationConfig();
+    currentPageNumber = 1;
 
     constructor(
         private phoneNumberValidatorService: PhoneNumberValidatorService,
@@ -34,11 +38,11 @@ export class MainComponent implements OnInit {
     }
 
     submitNumber(): void {
-        this.fetchPhoneNumberCombinations(0);
+        this.fetchPhoneNumberCombinations({ pageNumber: 1, start: 0 });
     }
 
-    fetchCombinationsPerPage(pageNumber: number): void {
-        this.fetchPhoneNumberCombinations(pageNumber);
+    fetchCombinationsPerPage(request: PaginationRequestEvent): void {
+        this.fetchPhoneNumberCombinations(request);
     }
     private clearResults(): void {
         this.combinations = [];
@@ -53,14 +57,19 @@ export class MainComponent implements OnInit {
         };
     }
 
-    private fetchPhoneNumberCombinations(pageNumber: number): void {
+    private fetchPhoneNumberCombinations(
+        request: PaginationRequestEvent
+    ): void {
+        console.log('PAGINATION REQUEST: ', request);
+        this.currentPageNumber = request.pageNumber;
         this.phoneNumbersApiClientService
             .fetchCombinations(
                 this.phoneNumber.value,
-                pageNumber,
+                request.start,
                 this.combinationsPerPage
             )
             .subscribe(result => {
+                console.log('RESULT: ', result);
                 this.totalNumberOfCombinations = result.total;
                 this.combinations = result.combinations;
                 this.paginationConfig = {

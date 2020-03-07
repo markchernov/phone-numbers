@@ -12,7 +12,8 @@
 <h2>Combinations</h2>
 <p>
     Total: {{ totalNumberOfCombinations }} Per Page:
-    {{ paginationConfig.combinationsPerPage }}
+    {{ paginationConfig.combinationsPerPage }} Current Page Number:
+    {{ currentPageNumber }}
 </p>
 <p *ngFor="let combination of combinations">
     {{ combination }}

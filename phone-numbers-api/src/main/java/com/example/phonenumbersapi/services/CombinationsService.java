@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.phonenumbersapi.models.CombinationsDto;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +16,8 @@ public class CombinationsService {
     private Map<String, List<String>> savedCombinations = new HashMap<>();
 
     private List<List<Character>> keypad = Arrays.asList(
-        Arrays.asList('0'),     
+        Arrays.asList('0'), 
+        Arrays.asList('1'),
         Arrays.asList('A', 'B', 'C'),
         Arrays.asList('D', 'E','F'),
         Arrays.asList('G', 'H', 'I'),
@@ -22,26 +25,29 @@ public class CombinationsService {
         Arrays.asList('M', 'N', 'O'),
         Arrays.asList('P', 'Q', 'R', 'S'),
         Arrays.asList('T', 'U', 'V'),
-        Arrays.asList('W', 'X', 'Y', 'Z'),
-        Arrays.asList('1')
+        Arrays.asList('W', 'X', 'Y', 'Z')
+       
    );
 
-    public List<String>getCombinations(String phoneNumber, int start, int numberOfRecords) {
+    public CombinationsDto getCombinations(String phoneNumber, int start, int numberOfRecords) {
     
        List<String> fullList;
-
+        System.out.println(phoneNumber + " " + start + " " + numberOfRecords);
         if (this.savedCombinations.get(phoneNumber) != null) {
             fullList = this.savedCombinations.get(phoneNumber);
-        }
-            else {
+        } else {
             fullList = this.calculateCombinations(phoneNumber);
             this.savedCombinations.put(phoneNumber, fullList);         
         }
 
-        if(this.isValidArguments(fullList, start, numberOfRecords)) {       
-            return fullList.subList(start, numberOfRecords);
-        } else {
-            throw new IllegalArgumentException("Wrong start or numberOfRecords");
+        if(this.isValidArguments(fullList, start, numberOfRecords)) {   
+            if (start + numberOfRecords > fullList.size()) {
+                return new CombinationsDto(fullList.size(), fullList.subList(start, (fullList.size() - start) + start));
+            } else {
+                return new CombinationsDto(fullList.size(), fullList.subList(start, start + numberOfRecords));
+            }             
+           } else {
+               throw new IllegalArgumentException("Wrong start or numberOfRecords");
         }       
     }
     
@@ -79,7 +85,7 @@ public class CombinationsService {
     }
 
     private boolean isValidArguments(List<String> fullList, int start, int numberOfRecords) {
-        if(start < 0 || start < fullList.size() || start + numberOfRecords < fullList.size()) {
+        if(start < 0 || start < fullList.size()) {
             return true;
         } else {
             return false;

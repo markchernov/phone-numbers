@@ -8,6 +8,8 @@ export class PhoneNumberValidatorService {
         if (value.length === 7 || value.length === 10) {
             if (/[^$,\.\d]/.test(value)) {
                 return [false, 'Please enter only numeric values'];
+            } else if (value.startsWith('0') || value.startsWith('1')) {
+                return [false, '0 or 1 is invalid first digit'];
             } else {
                 return [true, ''];
             }

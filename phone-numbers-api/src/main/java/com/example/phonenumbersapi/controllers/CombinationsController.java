@@ -21,9 +21,10 @@ public class CombinationsController {
 		this.combinationsService = combinationService;
 	}
 
-	@PostMapping("/combinations")	
+	@PostMapping("/api/combinations")	
 	public CombinationsDto combinations(@RequestBody CombinationsRequestDto request) {	
-		List<String> combinations = this.combinationsService.getCombinations(request.getPhoneNumber(), request.getStart(), request.getNumberOfRecords());
-		return new CombinationsDto(combinations.size(), combinations);
+		CombinationsDto combinations = this.combinationsService
+		.getCombinations(request.getPhoneNumber(), request.getStart(), request.getNumberOfRecords());
+		return combinations;
 	}
 }
