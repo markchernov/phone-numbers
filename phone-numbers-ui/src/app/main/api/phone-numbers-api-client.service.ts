@@ -9,17 +9,22 @@ export class PhoneNumbersApiClientService {
     constructor(private http: HttpClient) {}
 
     fetchCombinations(
-        phoneNumber: string,
-        start: number,
-        numberOfRecords: number
-    ): Observable<{ total: number; combinations: string[] }> {
-        return this.http.post<{ total: number; combinations: string[] }>(
+        request: CombinationsApiRequest
+    ): Observable<CombinationsApiResponse> {
+        return this.http.post<CombinationsApiResponse>(
             'http://localhost:4200/api/combinations',
-            {
-                phoneNumber,
-                start,
-                numberOfRecords,
-            }
+            request
         );
     }
+}
+
+export interface CombinationsApiResponse {
+    total: number;
+    combinations: string[];
+}
+
+export interface CombinationsApiRequest {
+    phoneNumber: string;
+    start: number;
+    numberOfRecords: number;
 }

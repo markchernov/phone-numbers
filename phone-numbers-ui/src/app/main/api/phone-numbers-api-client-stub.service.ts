@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { PhoneNumbersApiClientService } from './phone-numbers-api-client.service';
+import {
+    PhoneNumbersApiClientService,
+    CombinationsApiRequest,
+} from './phone-numbers-api-client.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class PhoneNumbersApiClientStubService extends PhoneNumbersApiClientService {
     fetchCombinations(
-        phoneNumber: string,
-        start: number,
-        numberOfRecords: number
+        request: CombinationsApiRequest
     ): Observable<{ total: number; combinations: string[] }> {
-        const partialNumber = [...phoneNumber]
-            .slice(0, phoneNumber.length)
+        const partialNumber = [...request.phoneNumber]
+            .slice(0, request.phoneNumber.length)
             .join('');
         const dummyCombinations = [
             partialNumber + 'A',
@@ -31,8 +32,8 @@ export class PhoneNumbersApiClientStubService extends PhoneNumbersApiClientServi
         return of({
             total: dummyCombinations.length,
             combinations: dummyCombinations.slice(
-                start,
-                start + numberOfRecords
+                request.start,
+                request.start + request.numberOfRecords
             ),
         });
     }

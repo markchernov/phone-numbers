@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PhoneNumberValidatorService } from '../../services/phone-number-validator.service';
 import {
@@ -11,6 +16,7 @@ import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client
     selector: 'app-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent implements OnInit {
     private readonly combinationsPerPage = 20;
@@ -23,7 +29,8 @@ export class MainComponent implements OnInit {
 
     constructor(
         private phoneNumberValidatorService: PhoneNumberValidatorService,
-        private phoneNumbersApiClientService: PhoneNumbersApiClientService
+        private phoneNumbersApiClientService: PhoneNumbersApiClientService,
+        private cd: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -34,6 +41,7 @@ export class MainComponent implements OnInit {
             this.phoneNumberStatus = this.phoneNumberValidatorService.isValid(
                 value
             );
+            this.cd.markForCheck();
         });
     }
 
@@ -60,22 +68,21 @@ export class MainComponent implements OnInit {
     private fetchPhoneNumberCombinations(
         request: PaginationRequestEvent
     ): void {
-        console.log('PAGINATION REQUEST: ', request);
         this.currentPageNumber = request.pageNumber;
         this.phoneNumbersApiClientService
-            .fetchCombinations(
-                this.phoneNumber.value,
-                request.start,
-                this.combinationsPerPage
-            )
+            .fetchCombinations({
+                phoneNumber: this.phoneNumber.value,
+                start: request.start,
+                numberOfRecords: this.combinationsPerPage,
+            })
             .subscribe(result => {
-                console.log('RESULT: ', result);
                 this.totalNumberOfCombinations = result.total;
                 this.combinations = result.combinations;
                 this.paginationConfig = {
                     totalNumberOfCombinations: this.totalNumberOfCombinations,
                     combinationsPerPage: this.combinationsPerPage,
                 };
+                this.cd.markForCheck();
             });
     }
 }

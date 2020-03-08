@@ -5,9 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.example.phonenumbersapi.models.CombinationsDto;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,14 +23,13 @@ public class CombinationsService {
         Arrays.asList('M', 'N', 'O'),
         Arrays.asList('P', 'Q', 'R', 'S'),
         Arrays.asList('T', 'U', 'V'),
-        Arrays.asList('W', 'X', 'Y', 'Z')
-       
+        Arrays.asList('W', 'X', 'Y', 'Z')       
    );
 
     public CombinationsDto getCombinations(String phoneNumber, int start, int numberOfRecords) {
-    
-       List<String> fullList;
-        System.out.println(phoneNumber + " " + start + " " + numberOfRecords);
+        System.out.println("Number: " + phoneNumber + " Start: " + start + " Number of Records: " + numberOfRecords);
+        List<String> fullList;
+        
         if (this.savedCombinations.get(phoneNumber) != null) {
             fullList = this.savedCombinations.get(phoneNumber);
         } else {
@@ -46,8 +43,8 @@ public class CombinationsService {
             } else {
                 return new CombinationsDto(fullList.size(), fullList.subList(start, start + numberOfRecords));
             }             
-           } else {
-               throw new IllegalArgumentException("Wrong start or numberOfRecords");
+        } else {
+            throw new IllegalArgumentException("Wrong start or numberOfRecords");
         }       
     }
     

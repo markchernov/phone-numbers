@@ -21,7 +21,7 @@ public class CombinationsController {
 		this.combinationsService = combinationService;
 	}
 
-	@PostMapping("/api/combinations")	
+	@PostMapping("/combinations")	
 	public CombinationsDto combinations(@RequestBody CombinationsRequestDto request) {	
 		CombinationsDto combinations = this.combinationsService
 		.getCombinations(request.getPhoneNumber(), request.getStart(), request.getNumberOfRecords());
