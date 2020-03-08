@@ -6,7 +6,7 @@ public class CombinationsDto {
 
 	private final int total;
 	private final List<String> combinations;
-	
+
 	public CombinationsDto(int total, List<String> combinations) {
 		this.total = total;
 		this.combinations = combinations;
