@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,7 @@ export class PhoneNumbersApiClientService {
         request: CombinationsApiRequest
     ): Observable<CombinationsApiResponse> {
         return this.http.post<CombinationsApiResponse>(
-            'http://localhost:4200/api/combinations',
+            environment.baseUrl + '/combinations',
             request
         );
     }
