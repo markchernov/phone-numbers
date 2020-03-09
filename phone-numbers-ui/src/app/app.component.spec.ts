@@ -16,7 +16,7 @@ describe('AppComponent', () => {
         expect(app).toBeTruthy();
     });
 
-    it(`should have as title 'phone-numbers-ui'`, () => {
+    it(`should have as title 'Phone Numbers App'`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.componentInstance;
         expect(app.title).toEqual('Phone Numbers App');
@@ -26,7 +26,7 @@ describe('AppComponent', () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain(
+        expect(compiled.querySelector('span').textContent).toContain(
             'Phone Numbers App'
         );
     });

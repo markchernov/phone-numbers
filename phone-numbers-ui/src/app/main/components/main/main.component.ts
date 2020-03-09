@@ -19,7 +19,6 @@ import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent implements OnInit {
-    private readonly combinationsPerPage = 20;
     phoneNumber = new FormControl('');
     phoneNumberStatus: [boolean, string] = [false, ''];
     combinations: string[] = [];
@@ -52,6 +51,11 @@ export class MainComponent implements OnInit {
     fetchCombinationsPerPage(request: PaginationRequestEvent): void {
         this.fetchPhoneNumberCombinations(request);
     }
+
+    isDisabled(): boolean {
+        return !this.phoneNumberStatus[0];
+    }
+
     private clearResults(): void {
         this.combinations = [];
         this.totalNumberOfCombinations = 0;
@@ -61,7 +65,7 @@ export class MainComponent implements OnInit {
     private getDefaultPaginationConfig(): PaginationConfig {
         return {
             totalNumberOfCombinations: 0,
-            combinationsPerPage: this.combinationsPerPage,
+            combinationsPerPage: 10,
         };
     }
 
@@ -73,14 +77,16 @@ export class MainComponent implements OnInit {
             .fetchCombinations({
                 phoneNumber: this.phoneNumber.value,
                 start: request.start,
-                numberOfRecords: this.combinationsPerPage,
+                numberOfRecords: this.getDefaultPaginationConfig()
+                    .combinationsPerPage,
             })
             .subscribe(result => {
                 this.totalNumberOfCombinations = result.total;
                 this.combinations = result.combinations;
                 this.paginationConfig = {
                     totalNumberOfCombinations: this.totalNumberOfCombinations,
-                    combinationsPerPage: this.combinationsPerPage,
+                    combinationsPerPage: this.getDefaultPaginationConfig()
+                        .combinationsPerPage,
                 };
                 this.cd.markForCheck();
             });

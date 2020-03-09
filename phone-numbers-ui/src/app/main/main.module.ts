@@ -5,9 +5,31 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { CombinationsListComponent } from './components/combinations-list/combinations-list.component';
+import { CombinationsStatsComponent } from './components/combinations-stats/combinations-stats.component';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-    declarations: [MainComponent, PageNotFoundComponent, PaginationComponent],
-    imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+    declarations: [
+        MainComponent,
+        PageNotFoundComponent,
+        PaginationComponent,
+        CombinationsListComponent,
+        CombinationsStatsComponent,
+    ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatListModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCardModule,
+        MatButtonModule,
+    ],
 })
 export class MainModule {}

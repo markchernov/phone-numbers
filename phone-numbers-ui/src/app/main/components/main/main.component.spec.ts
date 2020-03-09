@@ -5,6 +5,8 @@ import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client
 import { PhoneNumbersApiClientStubService } from '../../api/phone-numbers-api-client-stub.service';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CombinationsListComponent } from '../combinations-list/combinations-list.component';
+import { CombinationsStatsComponent } from '../combinations-stats/combinations-stats.component';
 
 describe('MainComponent', () => {
     let component: MainComponent;
@@ -12,7 +14,12 @@ describe('MainComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MainComponent, PaginationComponent],
+            declarations: [
+                MainComponent,
+                PaginationComponent,
+                CombinationsListComponent,
+                CombinationsStatsComponent,
+            ],
             imports: [HttpClientTestingModule, ReactiveFormsModule],
             providers: [
                 {
@@ -40,7 +47,7 @@ describe('MainComponent', () => {
         // tslint:disable-next-line
         expect(component['getDefaultPaginationConfig']()).toEqual({
             totalNumberOfCombinations: 0,
-            combinationsPerPage: 20,
+            combinationsPerPage: 10,
         });
     });
 
@@ -54,7 +61,7 @@ describe('MainComponent', () => {
         expect(spy).toHaveBeenCalledWith({
             phoneNumber: 'qwerty',
             start: 0,
-            numberOfRecords: 20,
+            numberOfRecords: 10,
         });
     });
 
@@ -68,7 +75,7 @@ describe('MainComponent', () => {
         expect(spy).toHaveBeenCalledWith({
             phoneNumber: 'qwerty',
             start: 40,
-            numberOfRecords: 20,
+            numberOfRecords: 10,
         });
     });
 });

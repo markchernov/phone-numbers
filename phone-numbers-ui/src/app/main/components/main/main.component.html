@@ -1,24 +1,38 @@
-<label
-    >Enter Phone Number:
-    <input type="text" [formControl]="phoneNumber" />
-</label>
-<br /><br />
-<p *ngIf="!phoneNumberStatus[0]">{{ phoneNumberStatus[1] }}</p>
-<br /><br />
-<button [disabled]="!phoneNumberStatus[0]" (click)="submitNumber()">
-    Submit
-</button>
-<br /><br />
-<h2>Combinations</h2>
-<p>
-    Total: {{ totalNumberOfCombinations }} Per Page:
-    {{ paginationConfig.combinationsPerPage }} Current Page Number:
-    {{ currentPageNumber }}
-</p>
-<p *ngFor="let combination of combinations">
-    {{ combination }}
-</p>
-<app-pagination
-    [paginationConfig]="paginationConfig"
-    (pageNumberClicked)="fetchCombinationsPerPage($event)"
-></app-pagination>
+<mat-card>
+    <mat-form-field>
+        <mat-label>Enter Phone Number</mat-label>
+        <input
+            matInput="text"
+            placeholder="7 or 10 digits phone number"
+            [formControl]="phoneNumber"
+        />
+    </mat-form-field>
+    <button
+        id="submit-button"
+        mat-raised-button
+        color="primary"
+        [disabled]="isDisabled()"
+        (click)="submitNumber()"
+    >
+        Submit
+    </button>
+    <p id="error-text" *ngIf="isDisabled()">{{ phoneNumberStatus[1] }}</p>
+</mat-card>
+<mat-card>
+    <app-combinations-stats
+        [totalNumberOfCombinations]="totalNumberOfCombinations"
+        [paginationConfig]="paginationConfig"
+        [currentPageNumber]="currentPageNumber"
+    ></app-combinations-stats>
+</mat-card>
+<mat-card
+    ><app-combinations-list
+        [combinations]="combinations"
+    ></app-combinations-list
+></mat-card>
+<mat-card>
+    <app-pagination
+        [paginationConfig]="paginationConfig"
+        (pageNumberClicked)="fetchCombinationsPerPage($event)"
+    ></app-pagination>
+</mat-card>

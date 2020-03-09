@@ -1,5 +1,6 @@
 <div *ngIf="paginationButtonNumbers.length">
     <button
+        mat-stroked-button
         *ngFor="let pageNumber of paginationButtonNumbers"
         (click)="onPageNumberClick(pageNumber)"
     >
