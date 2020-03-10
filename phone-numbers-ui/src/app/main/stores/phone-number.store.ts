@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -11,6 +11,10 @@ export class PhoneNumberStore {
 
     getPhoneNumberCurrentValue(): string {
         return this.phoneNumber$.getValue();
+    }
+
+    getPhoneNumber$(): Observable<string> {
+        return this.phoneNumber$.asObservable();
     }
 
     setPhoneNumber$(phoneNumber: string): void {
