@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { PhoneNumberFormComponent } from './components/phone-number-form/phone-number-form.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
         PaginationComponent,
         CombinationsListComponent,
         CombinationsStatsComponent,
+        PhoneNumberFormComponent,
     ],
     imports: [
         CommonModule,

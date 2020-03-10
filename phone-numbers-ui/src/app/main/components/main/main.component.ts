@@ -1,16 +1,14 @@
 import {
     Component,
-    OnInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { PhoneNumberValidatorService } from '../../services/phone-number-validator.service';
 import {
     PaginationConfig,
     PaginationRequestEvent,
 } from '../pagination/pagination.component';
 import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client.service';
+import { PhoneNumberStore } from '../../stores/phone-number.store';
 
 @Component({
     selector: 'app-main',
@@ -18,48 +16,27 @@ import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client
     styleUrls: ['./main.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnInit {
-    phoneNumber = new FormControl('');
-    phoneNumberStatus: [boolean, string] = [false, ''];
+export class MainComponent {
     combinations: string[] = [];
     totalNumberOfCombinations = 0;
     paginationConfig: PaginationConfig = this.getDefaultPaginationConfig();
     currentPageNumber = 1;
 
     constructor(
-        private phoneNumberValidatorService: PhoneNumberValidatorService,
         private phoneNumbersApiClientService: PhoneNumbersApiClientService,
+        private phoneNumberStore: PhoneNumberStore,
         private cd: ChangeDetectorRef
     ) {}
-
-    ngOnInit(): void {
-        this.phoneNumber.valueChanges.subscribe((value: string) => {
-            if (this.combinations.length !== 0) {
-                this.clearResults();
-            }
-            this.phoneNumberStatus = this.phoneNumberValidatorService.isValid(
-                value
-            );
-            this.cd.markForCheck();
-        });
-    }
-
-    submitNumber(): void {
-        this.fetchPhoneNumberCombinations({ pageNumber: 1, start: 0 });
-    }
 
     fetchCombinationsPerPage(request: PaginationRequestEvent): void {
         this.fetchPhoneNumberCombinations(request);
     }
 
-    isDisabled(): boolean {
-        return !this.phoneNumberStatus[0];
-    }
-
-    private clearResults(): void {
+    clearResults(): void {
         this.combinations = [];
         this.totalNumberOfCombinations = 0;
         this.paginationConfig = this.getDefaultPaginationConfig();
+        this.currentPageNumber = 1;
     }
 
     private getDefaultPaginationConfig(): PaginationConfig {
@@ -75,7 +52,7 @@ export class MainComponent implements OnInit {
         this.currentPageNumber = request.pageNumber;
         this.phoneNumbersApiClientService
             .fetchCombinations({
-                phoneNumber: this.phoneNumber.value,
+                phoneNumber: this.phoneNumberStore.getPhoneNumberCurrentValue(),
                 start: request.start,
                 numberOfRecords: this.getDefaultPaginationConfig()
                     .combinationsPerPage,

@@ -1,0 +1,21 @@
+<mat-form-field>
+    <mat-label>Enter Phone Number</mat-label>
+    <input
+        matInput="text"
+        placeholder="7 or 10 digits phone number"
+        [formControl]="phoneNumber"
+    />
+</mat-form-field>
+<button
+    id="submit-button"
+    mat-raised-button
+    color="primary"
+    [disabled]="isDisabled()"
+    (click)="submitNumber()"
+>
+    Submit
+</button>
+<button id="clear-button" mat-button (click)="clearNumber()">
+    Clear
+</button>
+<p id="error-text" *ngIf="isDisabled()">{{ phoneNumberStatus[1] }}</p>

@@ -1,22 +1,8 @@
 <mat-card>
-    <mat-form-field>
-        <mat-label>Enter Phone Number</mat-label>
-        <input
-            matInput="text"
-            placeholder="7 or 10 digits phone number"
-            [formControl]="phoneNumber"
-        />
-    </mat-form-field>
-    <button
-        id="submit-button"
-        mat-raised-button
-        color="primary"
-        [disabled]="isDisabled()"
-        (click)="submitNumber()"
-    >
-        Submit
-    </button>
-    <p id="error-text" *ngIf="isDisabled()">{{ phoneNumberStatus[1] }}</p>
+    <app-phone-number-form
+        (submitClick)="fetchCombinationsPerPage($event)"
+        (clearClick)="clearResults()"
+    ></app-phone-number-form>
 </mat-card>
 <mat-card>
     <app-combinations-stats
@@ -33,6 +19,6 @@
 <mat-card>
     <app-pagination
         [paginationConfig]="paginationConfig"
-        (pageNumberClicked)="fetchCombinationsPerPage($event)"
+        (pageNumberClick)="fetchCombinationsPerPage($event)"
     ></app-pagination>
 </mat-card>
