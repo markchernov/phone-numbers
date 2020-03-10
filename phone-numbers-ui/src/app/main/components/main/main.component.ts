@@ -9,6 +9,7 @@ import {
 } from '../pagination/pagination.component';
 import { PhoneNumbersApiClientService } from '../../api/phone-numbers-api-client.service';
 import { PhoneNumberStore } from '../../stores/phone-number.store';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-main',
@@ -57,15 +58,19 @@ export class MainComponent {
                 numberOfRecords: this.getDefaultPaginationConfig()
                     .combinationsPerPage,
             })
-            .subscribe(result => {
-                this.totalNumberOfCombinations = result.total;
-                this.combinations = result.combinations;
-                this.paginationConfig = {
-                    totalNumberOfCombinations: this.totalNumberOfCombinations,
-                    combinationsPerPage: this.getDefaultPaginationConfig()
-                        .combinationsPerPage,
-                };
-                this.cd.markForCheck();
-            });
+            .pipe(
+                tap(result => {
+                    this.totalNumberOfCombinations = result.total;
+                    this.combinations = result.combinations;
+                    this.paginationConfig = {
+                        totalNumberOfCombinations: this
+                            .totalNumberOfCombinations,
+                        combinationsPerPage: this.getDefaultPaginationConfig()
+                            .combinationsPerPage,
+                    };
+                    this.cd.markForCheck();
+                })
+            )
+            .subscribe();
     }
 }

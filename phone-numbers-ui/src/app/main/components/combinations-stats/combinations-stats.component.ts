@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { PaginationConfig } from '../pagination/pagination.component';
 import { PhoneNumberStore } from '../../stores/phone-number.store';
 import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-combinations-stats',
@@ -20,11 +21,14 @@ export class CombinationsStatsComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.sub = this.phoneNumberStore
             .getPhoneNumber$()
-            .subscribe(phoneNumber => {
-                this.phoneNumber = phoneNumber
-                    ? phoneNumber
-                    : 'empty or invalid';
-            });
+            .pipe(
+                tap(phoneNumber => {
+                    this.phoneNumber = phoneNumber
+                        ? phoneNumber
+                        : 'empty or invalid';
+                })
+            )
+            .subscribe();
     }
 
     ngOnDestroy(): void {

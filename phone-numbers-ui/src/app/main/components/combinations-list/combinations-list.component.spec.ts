@@ -21,5 +21,6 @@ describe('CombinationsListComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+        expect(component.combinations).toEqual([]);
     });
 });

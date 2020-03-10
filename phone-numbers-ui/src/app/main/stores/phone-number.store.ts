@@ -4,6 +4,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root',
 })
+/**
+ * Container for current state of a phone number
+ * to be multicasted across components.
+ */
 export class PhoneNumberStore {
     private readonly phoneNumber$: BehaviorSubject<
         string
