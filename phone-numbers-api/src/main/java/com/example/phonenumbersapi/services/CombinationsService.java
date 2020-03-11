@@ -36,7 +36,7 @@ public class CombinationsService {
                 return new CombinationsDto(fullList.size(), fullList.subList(start, start + numberOfRecords));
             }
         } else {
-            throw new IllegalArgumentException("Wrong start or numberOfRecords");
+            throw new IllegalArgumentException("Start position is negative or larger than total number of records");
         }
     }
 
@@ -74,7 +74,7 @@ public class CombinationsService {
     }
 
     private boolean isValidArguments(List<String> fullList, int start, int numberOfRecords) {
-        if (start < 0 || start < fullList.size()) {
+        if (start >= 0 && start < fullList.size()) {
             return true;
         } else {
             return false;

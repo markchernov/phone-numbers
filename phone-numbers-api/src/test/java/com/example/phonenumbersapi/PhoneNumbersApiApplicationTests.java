@@ -8,6 +8,7 @@ class PhoneNumbersApiApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("Started App");
 	}
 
 }
