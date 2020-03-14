@@ -1,4 +1,5 @@
 exports.handler = async event => {
+  const cache = {};
   const keypad = [
     ["0"],
     ["1"],
@@ -12,7 +13,7 @@ exports.handler = async event => {
     ["W", "X", "Y", "Z"]
   ];
 
-  const calculateCombinations = (phoneNumber, keypad) => {
+  const calculateCombinations = (phoneNumber, keypad, cache) => {
     const input = [...phoneNumber];
     let output = [];
 
@@ -30,12 +31,15 @@ exports.handler = async event => {
         }
       }
     }
-
+    cache[phoneNumber] = output;
     return output;
   };
 
   const request = event.body ? JSON.parse(event.body) : event;
-  const combinations = calculateCombinations(request.phoneNumber, keypad);
+
+  const combinations = cache[request.phoneNumber]
+    ? cache[request.phoneNumber]
+    : calculateCombinations(request.phoneNumber, keypad, cache);
 
   return JSON.stringify({
     total: combinations.length,
